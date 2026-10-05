@@ -1,0 +1,9 @@
+{
+  "dublin-ca": {
+    "name": "Dublin, California, USA",
+    "latitude": 37.7022,
+    "longitude": -121.9358,
+    "elevation": 105,
+    "timezone": "America/Los_Angeles"
+  }
+}
