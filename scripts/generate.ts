@@ -278,20 +278,19 @@ function generateLocationEvents(
     }
 
     // Rahu Kalam
-    const rahu = p.rahuKalam;
+if (p.rahuKalamStart && p.rahuKalamEnd) {
+  addEvent(events, {
+    uid: `${locationId}-${date}-rahu-kalam`,
+    title: "Rahu Kalam",
+    description:
+      `Rahu Kalam for ${location.name}`,
+    category: "rahu-kalam",
+    allDay: false,
+    start: new Date(p.rahuKalamStart),
+    end: new Date(p.rahuKalamEnd)
+  });
+}
 
-    if (rahu?.start && rahu?.end) {
-      addEvent(events, {
-        uid: `${locationId}-${date}-rahu-kalam`,
-        title: "Rahu Kalam",
-        description:
-          `Rahu Kalam for ${location.name}`,
-        category: "rahu-kalam",
-        allDay: false,
-        start: new Date(rahu.start),
-        end: new Date(rahu.end)
-      });
-    }
   }
 
   return events;
