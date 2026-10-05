@@ -39,6 +39,20 @@ function pad(n: number): string {
   return String(n).padStart(2, "0");
 }
 
+function formatLocalDate(
+  value: Date | string,
+  timeZone: string
+): string {
+  const date = new Date(value);
+
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(date);
+}
+
 function dateKey(date: Date, timezone: string): string {
   const p = new Intl.DateTimeFormat("en-CA", {
     timeZone: timezone,
@@ -249,33 +263,44 @@ function generateLocationEvents(
 
     const date = `${y}-${pad(m)}-${pad(d)}`;
 
-    // Festivals / Vratas
-    if (Array.isArray(p.festivals)) {
-      for (const festival of p.festivals) {
-        const name = String(
-          festival?.name || festival
-        ).trim();
+  if (Array.isArray(p.festivals)) {
+  for (const festival of p.festivals) {
+    const name = String(
+      festival?.name || festival
+    ).trim();
 
-        if (!name) continue;
+    if (!name) continue;
 
-        const category = festivalCategory(
-          name,
-          festival?.category
-        );
+    const category = festivalCategory(
+      name,
+      festival?.category
+    );
 
-        addEvent(events, {
-          uid:
-            `${locationId}-${date}-` +
-            name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-          title: name,
-          description:
-            `${name} — ${location.name}`,
-          category,
-          allDay: true,
-          date
-        });
-      }
-    }
+    const festivalDate = festival?.date
+      ? new Date(festival.date)
+      : null;
+
+    const eventDate = festivalDate
+      ? formatLocalDate(
+          festivalDate,
+          location.timezone
+        )
+      : date;
+
+    addEvent(events, {
+      uid:
+        `${locationId}-${eventDate}-` +
+        name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      title: name,
+      description:
+        `${name} — ${location.name}`,
+      category,
+      allDay: true,
+      date: eventDate
+    });
+  }
+}
+
 
     // Rahu Kalam
 if (p.rahuKalamStart && p.rahuKalamEnd) {
