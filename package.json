@@ -13,7 +13,7 @@
     "@ishubhamx/panchangam-js": "^3.0.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20261004.0",
+    "@cloudflare/workers-types": "^5.20261002.1",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "wrangler": "^4.45.0"
